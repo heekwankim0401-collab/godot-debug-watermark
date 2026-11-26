@@ -1,0 +1,7 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Local overrides and exports made while testing by hand
+override.cfg
+export_presets.cfg
