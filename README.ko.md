@@ -6,7 +6,7 @@
 Godot 4 애드온입니다. 디버그 빌드와 릴리스 빌드를 한눈에 구분할 수 있습니다.
 릴리스로 내보낸 게임에는 아무것도 나오지 않습니다.
 
-![디버그 내보내기 화면. 오른쪽 아래 구석에 워터마크가 다른 CanvasLayer 위로 보인다](docs/screenshot.png)
+![디버그 내보내기 화면. 오른쪽 아래 구석에 워터마크가 다른 CanvasLayer 위로 보인다](media/screenshot.png)
 
 [godotengine/godot-proposals#1073](https://github.com/godotengine/godot-proposals/issues/1073)을
 구현했습니다. akien-mga는 2020년에 이 기능을 엔진이 아닌 애드온으로 하자며
@@ -134,18 +134,23 @@ if DebugWatermark.label:
 
 ## 호환성
 
-- Windows 11에서 공식 **Godot 4.7.2**(Vulkan Forward+)로 테스트했습니다. 테스트에서는
-  에디터 실행 파일로 게임을 실행했고, 공식 Windows x86_64 디버그·릴리스 내보내기
-  템플릿으로 내보낸 게임도 실행했습니다.
+Godot 4.2 이상에서 씁니다. Windows 11에서 공식 빌드(Vulkan Forward+)로 테스트했습니다.
+
+| 버전 | 테스트한 것 |
+| --- | --- |
+| 4.7.2 | 모든 테스트 경우. 공식 Windows x86_64 템플릿으로 디버그·릴리스 내보내기까지 |
+| 4.6.3 | 내보내기를 뺀 모든 경우 |
+| 4.2.2 | 내보내기를 뺀 모든 경우 |
+
+- 세 버전 모두, 기본으로 켜진 GDScript 경고를 전부 오류로 바꾸고(애드온 스크립트
+  포함) 애드온을 불러와 봤습니다. 따라서 이 애드온이 프로젝트에 경고를 더하지
+  않습니다.
 - "에디터에서 실행"은 에디터 실행 파일을 `--path`로 실행해서 확인했습니다.
   Godot의 실행 버튼도 같은 방식으로 게임을 띄우지만, 테스트 중에 그 버튼을 직접
   누르지는 않았습니다.
-- 스크립트는 Godot 4.0부터 있는 API만 쓰도록 했고, 반복 변수 타입 지정 같은 새
-  GDScript 문법은 피했습니다. 다만 API를 하나하나 대조하지는 않았고, 4.7.2보다
-  오래된 버전에서는 **테스트하지 않았습니다**.
-- 다른 플랫폼(Linux, macOS, Android, iOS, 웹), Mobile·Compatibility 렌더러, .NET
-  빌드, 에디터의 Game 탭에 넣어 실행하는 경우도 **테스트하지 않았습니다**. 애드온은
-  플랫폼별 코드가 없는 순수 GDScript입니다.
+- **테스트하지 않은 것:** Godot 4.0·4.1, 다른 플랫폼(Linux, macOS, Android, iOS,
+  웹), Mobile·Compatibility 렌더러, .NET 빌드, 에디터의 Game 탭에 넣어 실행하는
+  경우. 애드온은 플랫폼별 코드가 없는 순수 GDScript입니다.
 
 ## 테스트 프로젝트
 

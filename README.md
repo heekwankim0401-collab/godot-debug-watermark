@@ -6,7 +6,7 @@ A Godot 4 add-on that shows a **DEBUG** watermark in a corner of the game
 window when the game runs from a debug build. You can tell debug builds apart
 from release builds at a glance. Release exports show nothing.
 
-![Debug export with the watermark in the bottom-right corner, drawn over another CanvasLayer](docs/screenshot.png)
+![Debug export with the watermark in the bottom-right corner, drawn over another CanvasLayer](media/screenshot.png)
 
 It implements [godotengine/godot-proposals#1073](https://github.com/godotengine/godot-proposals/issues/1073).
 akien-mga closed that proposal in 2020: the feature should be an add-on, not
@@ -137,18 +137,25 @@ plugin. Otherwise the scripts fail to compile, as with any removed autoload.
 
 ## Compatibility
 
-- Tested with the official **Godot 4.7.2** build on Windows 11
-  (Vulkan Forward+). The tests ran the game with the editor binary and with
-  the official Windows x86_64 debug and release export templates.
+Godot 4.2 or later. Tested with official builds on Windows 11 (Vulkan
+Forward+):
+
+| Version | What was tested |
+| --- | --- |
+| 4.7.2 | All test cases, including debug and release exports with the official Windows x86_64 templates |
+| 4.6.3 | All cases except the exports |
+| 4.2.2 | All cases except the exports |
+
+- All three versions also load the add-on with every GDScript warning that is
+  on by default turned into an error, add-on scripts included. So the add-on
+  doesn't add warnings to your project.
 - "Run from the editor" was tested by starting the editor binary with
   `--path`. Godot's own Run button starts the game the same way, but nobody
   pressed it during the tests.
-- The scripts are meant to use only APIs that exist since Godot 4.0, and avoid
-  newer GDScript syntax such as typed loop variables. This was not checked API
-  by API, and the add-on was **not tested** on versions before 4.7.2.
-- **Not tested** either: other platforms (Linux, macOS, Android, iOS, Web), the
-  Mobile and Compatibility renderers, the .NET build, and the editor's embedded
-  Game tab. The add-on is plain GDScript with no platform-specific code.
+- **Not tested:** Godot 4.0 and 4.1, other platforms (Linux, macOS, Android,
+  iOS, Web), the Mobile and Compatibility renderers, the .NET build, and the
+  editor's embedded Game tab. The add-on is plain GDScript with no
+  platform-specific code.
 
 ## Test project
 

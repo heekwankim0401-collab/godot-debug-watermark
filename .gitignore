@@ -5,3 +5,6 @@
 # Local overrides and exports made while testing by hand
 override.cfg
 export_presets.cfg
+
+# Asset Store upload zips (made with git archive)
+dist/

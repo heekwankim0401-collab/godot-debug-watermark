@@ -244,13 +244,13 @@ func _click(pos: Vector2) -> void:
 		await _frames(3)
 
 
-func _shot(name: String) -> void:
+func _shot(shot_name: String) -> void:
 	var dir := OS.get_environment("WM_SHOTS")
 	if dir.is_empty():
 		return
 	var run := OS.get_environment("WM_RUN")
 	var img := await _capture()
-	img.save_png(dir.path_join("%s_%s.png" % [_case if run.is_empty() else run, name]))
+	img.save_png(dir.path_join("%s_%s.png" % [_case if run.is_empty() else run, shot_name]))
 
 
 func _frames(n: int) -> void:

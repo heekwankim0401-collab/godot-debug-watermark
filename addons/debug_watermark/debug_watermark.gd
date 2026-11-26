@@ -68,14 +68,14 @@ func _ready() -> void:
 
 ## True when the watermark should appear: in debug builds only, and in runs
 ## from the editor only if [param show_in_editor_runs] is on.
-static func should_show(debug_build: bool, run_from_editor: bool, show_in_editor_runs: bool) -> bool:
+func should_show(debug_build: bool, run_from_editor: bool, show_in_editor_runs: bool) -> bool:
 	if not debug_build:
 		return false
 	return show_in_editor_runs or not run_from_editor
 
 
 ## Replaces {project_name}, {project_version} and {godot_version} in [param template].
-static func format_text(template: String) -> String:
+func format_text(template: String) -> String:
 	return template.format({
 		"project_name": str(ProjectSettings.get_setting("application/config/name", "")),
 		"project_version": str(ProjectSettings.get_setting("application/config/version", "")),
@@ -83,10 +83,10 @@ static func format_text(template: String) -> String:
 	})
 
 
-## Reads a "debug_watermark/<name>" project setting, or its default.
-static func get_setting(name: String) -> Variant:
-	var default_value: Variant = SETTINGS[name][0]
-	var value: Variant = ProjectSettings.get_setting(PREFIX + name, default_value)
+## Reads a "debug_watermark/<key>" project setting, or its default.
+func get_setting(key: String) -> Variant:
+	var default_value: Variant = SETTINGS[key][0]
+	var value: Variant = ProjectSettings.get_setting(PREFIX + key, default_value)
 	if typeof(value) != typeof(default_value):
 		# Wrong type (for example hand-edited project.godot): use the default,
 		# except that ints and floats are interchangeable.

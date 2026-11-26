@@ -68,6 +68,13 @@ function Show-Result([string]$Case, [string]$File) {
 	if ($text -notmatch "RESULT: 0 failure") { $script:failedCases += $Case }
 }
 
+# Runs Godot and waits. Godot prints warnings to stderr; with output redirected,
+# PowerShell 5.1 turns those into error records, so don't stop on them here.
+function Invoke-Godot([string[]]$GodotArgs) {
+	$ErrorActionPreference = "Continue"
+	& $Godot @GodotArgs
+}
+
 function Invoke-Game([string]$Case, [string]$WmCase, [string]$Exe, [string[]]$GodotArgs, [string]$OverrideDir, [string]$Override) {
 	$result = Join-Path $Out "results_$Case.txt"
 	$ov = Join-Path $OverrideDir "override.cfg"
@@ -103,8 +110,10 @@ $q = '"' + $work + '"'
 $md5BeforeImport = (Get-FileHash -Algorithm MD5 $projectFile).Hash
 
 Write-Host "== import"
-& $Godot --headless --path $work --import
-if ($LASTEXITCODE -ne 0) { throw "import failed ($LASTEXITCODE)" }
+Invoke-Godot @("--headless", "--path", $work, "--import")
+# Godot 4.2 returns 1 from --import even when the import worked, so only warn;
+# the cases below fail if the project really did not import.
+if ($LASTEXITCODE -ne 0) { Write-Host "note: --import returned $LASTEXITCODE" }
 
 # 2. Game run with project.godot as shipped (autoload stored as "*res://...").
 Write-Host "== game run from the editor binary, project.godot as shipped"
@@ -116,7 +125,7 @@ Write-Host "== editor"
 $editorResult = Join-Path $Out "results_editor.txt"
 $env:WM_EDITOR_OUT = $editorResult
 $env:WM_EDITOR_START_MD5 = $md5BeforeImport
-try { & $Godot --headless -e --path $work } finally { Remove-Item Env:WM_EDITOR_OUT, Env:WM_EDITOR_START_MD5 -ErrorAction SilentlyContinue }
+try { Invoke-Godot @("--headless", "-e", "--path", $work) } finally { Remove-Item Env:WM_EDITOR_OUT, Env:WM_EDITOR_START_MD5 -ErrorAction SilentlyContinue }
 Show-Result "editor" $editorResult
 
 # 4. More game runs with the editor binary.
@@ -180,7 +189,7 @@ application/modify_resources=false
 		$dir = Join-Path $Out "export_$kind"
 		New-Item -ItemType Directory -Force $dir | Out-Null
 		$exe = Join-Path $dir "debug_watermark_test.exe"
-		& $Godot --headless --path $work "--export-$kind" "Windows Desktop" $exe
+		Invoke-Godot @("--headless", "--path", $work, "--export-$kind", "Windows Desktop", $exe)
 		if (-not (Test-Path $exe)) {
 			Write-Host "FAIL  export_$kind produced no executable"
 			$script:failedCases += "export_$kind"
