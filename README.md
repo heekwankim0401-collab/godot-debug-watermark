@@ -28,14 +28,10 @@ add-on.
 
 ### From the official asset catalogs
 
-Debug Watermark was submitted to both official catalogs on 2026-11-26 and is
-waiting for review. The links work once it is approved.
-
 - [Godot Asset Store](https://store.godotengine.org/asset/khkhk/debug-watermark/):
   the Asset Store tab in Godot 4.7 and later.
-- [Godot Asset Library (search for "Debug Watermark")](https://godotengine.org/asset-library/asset?filter=Debug+Watermark):
-  the AssetLib tab in Godot 4.2 to 4.6. The direct link gets its number when
-  the asset is approved.
+- [Godot Asset Library](https://godotengine.org/asset-library/asset/5632):
+  the AssetLib tab in Godot 4.2 to 4.6.
 
 Both install the same `addons/debug_watermark/` folder. Then enable the plugin
 as in step 2 above.
